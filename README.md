@@ -46,7 +46,7 @@ La Vue est purement contemplative.
 Pour assurer la modularité, le projet utilise des interfaces strictes :
 * **Updatable** : Contrat de base pour tout objet nécessitant une mise à jour par frame.
 * **InteractableLivingEntity** : Définit les comportements de combat et de dialogue.
-* **InteractableItem** : Définit la logique de ramassage.
+* **InteractableItem** : Définit la logique des items (ex ramassage).
 
 ## 🚀 État d'avancement
 - [x] Conception UML du Modèle (v12)
