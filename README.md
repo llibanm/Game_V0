@@ -1,62 +1,60 @@
-Architecture du Projet : Jeu RPG Java (MVC Strict)
+# Project Architecture: Java RPG Game (Strict MVC)
 
-Ce projet repose sur une implémentation rigoureuse du motif d'architecture **Model-View-Controller (MVC)**. L'objectif est de garantir une séparation totale entre la logique métier, le rendu graphique et la gestion des entrées utilisateur.
+This project is built on a rigorous implementation of the **Model-View-Controller (MVC)** architectural pattern. The goal is to ensure a complete separation between business logic, graphical rendering, and user input handling.
 
-## 🏗 Architecture Globale
+## 🏗 Global Architecture
 
-### 1. Le Modèle (Model)
-Le Modèle est totalement indépendant et "aveugle". Il gère l'état interne du jeu, les calculs mathématiques et la logique métier sans aucune dépendance graphique.
+### 1. The Model
+The Model is fully independent and "blind". It manages the internal game state, mathematical calculations, and business logic with no graphical dependencies.
 
-#### 🌍 La classe World
-Point d'entrée unique du Modèle, elle contient :
-* Le `Player`.
-* Les listes d'entités (`List<InteractableLivingEntity>`).
-* Les objets au sol (`List<InteractableItem>`).
-* Les limites physiques de la carte.
+#### 🌍 The World Class
+The single entry point of the Model, it contains:
+* The `Player`.
+* The entity lists (`List<InteractableLivingEntity>`).
+* Items on the ground (`List<InteractableItem>`).
+* The physical boundaries of the map.
 
-#### 🧬 Hiérarchie des Entités
-* **Entity** : Racine contenant les coordonnées (X, Y) et les informations de base.
-* **LivingEntity** : Gère les statistiques vitales (HP, Attack, Defense), l'inventaire et les effets de statut.
-    * *Spécialisations* : `Player`, `Enemy` (ex: `Slime`), `NPC` (ex: `Merchant`).
-* **Item** : Objets inertes pouvant être stockés ou utilisés.
-    * *Spécialisations* : `Equippable` (Armor, Weapon) et `Consumable` (Potion).
+#### 🧬 Entity Hierarchy
+* **Entity**: Root class containing coordinates (X, Y) and basic information.
+* **LivingEntity**: Manages vital statistics (HP, Attack, Defense), inventory, and status effects.
+    * *Specializations*: `Player`, `Enemy` (e.g. `Slime`), `NPC` (e.g. `Merchant`).
+* **Item**: Inert objects that can be stored or used.
+    * *Specializations*: `Equippable` (Armor, Weapon) and `Consumable` (Potion).
 
-#### ⚔️ Logique de Combat
-Le combat est traité exclusivement au sein du Modèle via un échange de messages entre objets :
-1.  `Attack(target)` : Calcule les dégâts en fonction des statistiques et des `StatusEffect`.
-2.  `takeDamage(amount)` : La cible réduit les dégâts par sa défense et met à jour ses HP.
-3.  `OnDeath()` : Gère les conséquences logiques (XP, loot, état `DEAD` etc...).
-
----
-
-### 2. Le Contrôleur (Controller) - *En prévision*
-Le Contrôleur est le "cerveau" moteur du jeu.
-* **GameEngine** : Gère la boucle de jeu (*Game Loop*). Il appelle la méthode `Update()` du `World` à intervalle régulier.
-* **InputManager** : Traduit les touches clavier/souris en ordres logiques pour le Modèle (ex: `Z` -> `player.moveUp()`).
-
-### 3. La Vue (View) - *En prévision*
-La Vue est purement contemplative.
-* Elle lit les données du `World` (positions, états).
-* Elle affiche les sprites correspondants.
-* Elle n'a aucune logique de décision.
+#### ⚔️ Combat Logic
+Combat is handled exclusively within the Model through message passing between objects:
+1. `Attack(target)`: Calculates damage based on statistics and `StatusEffect`.
+2. `takeDamage(amount)`: The target reduces incoming damage by its defense and updates its HP.
+3. `OnDeath()`: Handles logical consequences (XP, loot, `DEAD` state, etc.).
 
 ---
 
-## 🛠 Interfaces & Contrats
-Pour assurer la modularité, le projet utilise des interfaces strictes :
-* **Updatable** : Contrat de base pour tout objet nécessitant une mise à jour par frame.
-* **InteractableLivingEntity** : Définit les comportements de combat et de dialogue.
-* **InteractableItem** : Définit la logique des items (ex ramassage).
+### 2. The Controller - *Planned*
+The Controller is the game engine's "brain".
+* **GameEngine**: Manages the game loop. It calls the `Update()` method of `World` at regular intervals.
+* **InputManager**: Translates keyboard/mouse inputs into logical commands for the Model (e.g. `Z` -> `player.moveUp()`).
 
-## 🚀 État d'avancement
-- [x] Conception UML du Modèle (v12)
-- [x] Hiérarchie des classes et héritage
-- [x] Système d'effets de statut et buffs
-- [x] Architecture du World
-- [ ] Conception UML du Controller
-- [ ] Conception UML de la vue
-- [ ] Implémentation du Modèle
-- [ ] Implémentation du Controller
-- [ ] Implémentation de la Vue
+### 3. The View - *Planned*
+The View is purely observational.
+* It reads data from `World` (positions, states).
+* It renders the corresponding sprites.
+* It has no decision-making logic.
 
+---
 
+## 🛠 Interfaces & Contracts
+To ensure modularity, the project uses strict interfaces:
+* **Updatable**: Base contract for any object requiring a per-frame update.
+* **InteractableLivingEntity**: Defines combat and dialogue behaviours.
+* **InteractableItem**: Defines item logic (e.g. picking up).
+
+## 🚀 Progress
+- [x] UML design of the Model (v12)
+- [x] Class hierarchy and inheritance
+- [x] Status effect and buff system
+- [x] World architecture
+- [ ] UML design of the Controller
+- [ ] UML design of the View
+- [ ] Model implementation
+- [ ] Controller implementation
+- [ ] View implementation
